@@ -20,7 +20,17 @@ class ConcreteCountryPage extends StatelessWidget {
         ),
       builder: (context, state) {
         return state.when(
-          error: (errorMessage) => ErrorScreen(errorMessage: errorMessage),
+          error: (errorMessage) => ErrorScreen(
+            errorMessage: errorMessage,
+            onRetry: () {
+              locator<CountryBloc>().add(
+                LoadConcreteCountryEvent(
+                  countryName:
+                      ModalRoute.of(context)!.settings.arguments! as String,
+                ),
+              );
+            },
+          ),
           loading: () => const LoadingScreen(),
           loaded: (country) => CountryScreen(country: country),
         );

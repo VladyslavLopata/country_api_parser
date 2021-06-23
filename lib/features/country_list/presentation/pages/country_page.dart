@@ -17,7 +17,12 @@ class CountriesPage extends StatelessWidget {
         return state.when(
           loading: () => const LoadingScreen(),
           loaded: (countries) => CountryScreen(countries: countries),
-          error: (errorMessage) => ErrorScreen(errorMessage: errorMessage),
+          error: (errorMessage) => ErrorScreen(
+            errorMessage: errorMessage,
+            onRetry: () {
+              locator<CountriesBloc>().add(const InitialCountryEvent());
+            },
+          ),
         );
       },
     );
